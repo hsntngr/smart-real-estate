@@ -22,7 +22,7 @@ Real Estate application list ads and visualize on map using mapbox-gl
       2. Show nearby real estates in 1-mile radius
       
   
-##Deployment
+## Deployment
 - `docker build -t smart-real-estate`
 - `docker run -d --restart always --name sre-instance -p 4200:80 smart-real-estate`
 
