@@ -1,0 +1,68 @@
+<ng-container *ngIf="property">
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <span class="font-weight-bold">{{ property.name }}</span>
+      <span class="fas fa-heart" style="font-size: 20px; cursor: pointer" (click)="onFavoriteClick($event)"
+            [ngClass]="{ 'text-icon-light': !property.favorite , 'text-danger' : property.favorite }">
+      </span>
+    </div>
+  </div>
+  <mdb-tabs>
+    <mdb-tab title="Plans">
+      <mdb-accordion>
+        <mdb-accordion-item *ngFor="let plan of property.floorplans">
+          <ng-template mdbAccordionItemHeader>
+            <div class="d-flex align-items-center justify-content-between" style="width: 100%; margin-right: 15px">
+            <span>
+              {{ plan.bed }} Bed + {{ plan.bath }} Bath
+              <small class="text-gray ml-3">({{ plan.sqft }} sqft)</small>
+            </span>
+              <span class="text-success">{{ plan.price | currency }}</span>
+            </div>
+          </ng-template>
+          <ng-template mdbAccordionItemBody>
+            <ng-container *ngIf="plan.photoUrl else noPlanImageRef">
+              <img style="width: 100%" [src]="plan.photoUrl">
+            </ng-container>
+          </ng-template>
+        </mdb-accordion-item>
+      </mdb-accordion>
+    </mdb-tab>
+    <mdb-tab title="Overview">
+      <div class="alert alert-light" style="margin: 15px">
+        Overview information skipped due to sake of the assessment. Most of time spent for the application architecture, map features and spatial analyzes
+      </div>
+    </mdb-tab>
+    <mdb-tab title="Nearby">
+      <div class="nearby-list">
+        <ng-container *ngIf="nearbyRealEstates && nearbyRealEstates.length else noNearbyRealEstateFoundRef">
+          <div class="border-bottom mb-2">
+            Nearby real estates in 1 miles radius
+          </div>
+          <ng-container *ngFor="let summary of nearbyRealEstates">
+            <app-real-estate-summary-card [summary]="summary" (click)="onSummaryCardClick(summary)"
+                                          (favoriteToggleClick)="onFavoriteToggleClick(summary)">
+            </app-real-estate-summary-card>
+          </ng-container>
+        </ng-container>
+        <ng-template #noNearbyRealEstateFoundRef>
+          <div class="alert alert-warning">
+            No nearby real estate found!
+          </div>
+        </ng-template>
+      </div>
+    </mdb-tab>
+  </mdb-tabs>
+</ng-container>
+
+<ng-container *ngIf="loading">
+  <div class="d-flex align-items-center justify-content-center" style="height: 200px">
+    <div class="spinner-border" role="status"></div>
+  </div>
+</ng-container>
+
+<ng-template #noPlanImageRef>
+  <div class="alert alert-warning" style="margin-bottom: 0 !important;">
+    No available preview found!
+  </div>
+</ng-template>

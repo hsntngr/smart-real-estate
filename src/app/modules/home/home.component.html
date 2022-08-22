@@ -1,0 +1,70 @@
+<div class="real-estates">
+  <button class="btn real-estates__mobile-btn show" (click)="adsVisible = true">
+    <span class="fa" [ngClass]="{'fa-list': !propertyDetailsShown, 'fa-info-circle' : propertyDetailsShown}"></span>
+  </button>
+  <div class="real-estates__ads" [class.visible]="adsVisible">
+    <ng-container *ngIf="realEstateListItemsLoading$ | async else realEstateItemsListRef">
+      <div class="d-flex align-items-center justify-content-center" style="height: 100%">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </ng-container>
+
+    <ng-template #realEstateItemsListRef>
+      <div class="real-estates__agent" *ngIf="agent$ | async as agent">
+        <div class="real-estates__agent-name">{{ agent.firstname }} {{ agent.lastname }}</div>
+        <div class="real-estates__agent-navigation">
+          <div class="real-estates__agent-company">{{ agent.company }}</div>
+          <button class="btn real-estates__mobile-btn hide" (click)="adsVisible = false">
+            <span class="fa fa-angle-double-left"></span>
+          </button>
+        </div>
+      </div>
+      <ng-container *ngIf="propertyDetailsShown else realEstateListRef">
+        <div class="card card__turn-back" style="cursor: pointer" role="button"
+             (click)="onCancelRealEstatePropertyDetails()">
+          <div class="card-body">
+            <span class="fa fa-arrow-left" style="margin-right: 10px"></span>
+            <span>Turn Back To Listing</span>
+          </div>
+        </div>
+        <app-real-estate-card [property]="selectedRealEstateProperty$ | async"
+                              [nearbyRealEstates]="nearbyProperties$ | async"
+                              (nearbySummaryCardClick)="onSummaryCardClick($event)"
+                              (nearbyFavoriteToggleClick)="onFavoriteToggleClick($event)"
+                              (propertyFavoriteClick)="onFavoriteToggleClick($event)"
+                              [loading]="selectedRealEstatePropertyLoading$ | async">
+        </app-real-estate-card>
+      </ng-container>
+      <ng-template #realEstateListRef>
+        <div class="real-estates__sync">
+          <div class="real-estates__sync-info">Only visible ads on the map</div>
+          <div class="real-estates__sync-control">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch"
+                     [(ngModel)]="adsSyncEnabled"
+                     (ngModelChange)="onToggleSync()"
+                     [ngModelOptions]="{ standalone: true }"/>
+            </div>
+          </div>
+        </div>
+        <div class="real-estates__list">
+          <ng-container *ngFor="let summary of realEstateItems; trackBy: trackBySummaryCard">
+            <ng-container *ngIf="isSummaryItemVisibleOnMap(summary)">
+              <app-real-estate-summary-card [summary]="summary" (click)="onSummaryCardClick(summary)"
+                                            (favoriteToggleClick)="onFavoriteToggleClick($event)">
+              </app-real-estate-summary-card>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+  <div class="real-estates__map">
+    <div class="map">
+      <app-map-editor [pins]="pins$ | async" (mapMoveEnd)="onMapMoveEnd($event)"
+                      (pinClick)="onPinClick($event)" [center]="center"
+                      (clusterClick)="onClusterClick($event)">
+      </app-map-editor>
+    </div>
+  </div>
+</div>

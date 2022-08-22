@@ -1,0 +1,124 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.real-estates {
+  display: flex;
+  position: relative;
+
+  @include respond($to-mobile) {
+    display: block;
+  }
+
+  &__ads {
+    position: relative;
+    height: calc(100vh - 75px);
+    flex: 0 0 400px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+    background-color: var(--theme-bg-light-gray);
+    transition: transform .5s ease;
+
+
+    @include respond($to-mobile) {
+      position: absolute;
+      width: 100vw;
+      transform: translateX(-100vw);
+
+      &.visible {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  &__mobile-btn {
+    display: none;
+    padding: 5px 10px;
+    border-radius: unset;
+    background-color: white;
+    color: #333;
+    font-size: 15px;
+
+    &.show {
+      position: absolute;
+      top: 15px;
+      left: 0px;
+      padding: 5px 15px;
+    }
+
+    &.hide {
+      z-index: 99999;
+      border-radius: 3px;
+      box-shadow: none;
+    }
+
+
+    @include respond($to-mobile) {
+      display: block;
+    }
+  }
+
+  &__sync {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px 0 20px;
+  }
+
+  &__list {
+    height: calc(100% - 126px);
+    overflow-y: auto;
+    padding: 15px;
+
+    app-real-estate-summary-card {
+      cursor: pointer;
+      display: block;
+    }
+
+    app-real-estate-summary-card ~ app-real-estate-summary-card {
+      margin-top: 10px;
+    }
+  }
+
+  &__agent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: var(--theme-main-color);
+    color: var(--theme-bg-light-gray);
+    position: sticky;
+    height: 50px;
+    top: 0;
+    z-index: 9999;
+
+    &-navigation {
+      display: flex;
+      align-items: center;
+    }
+
+    &-company {
+      @include respond($to-mobile) {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__map {
+    flex: 1;
+    max-width: calc(100vw - 400px);
+
+    @include respond($to-mobile) {
+      max-width: unset;
+    }
+  }
+}
+
+
+.card__turn-back {
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: unset;
+
+  .card-body {
+    padding: 10px 15px;
+  }
+}

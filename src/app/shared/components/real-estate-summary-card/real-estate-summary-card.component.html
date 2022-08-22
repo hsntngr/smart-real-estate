@@ -1,0 +1,23 @@
+<div class="summary-card">
+  <div class="summary-card__header">
+    <span class="summary-card__title">{{ summary.name }}</span>
+    <div class="d-flex align-items-center">
+      <span class="summary-card__address">{{ summary.streetAddress }}</span>
+      <span class="fas fa-heart" (click)="onFavoriteClick($event)"
+            [ngClass]="{ 'text-icon-light': !summary.favorite , 'text-danger' : summary.favorite }">
+      </span>
+    </div>
+  </div>
+  <div class="summary-card__content">
+    <div class="summary-card__thumbnail">
+      <img src="{{ summary.photo }}" alt="{{ summary.name }}">
+    </div>
+    <table class="summary-card__floorplans">
+      <tbody>
+      <tr *ngFor="let plan of summary.floorplans">
+        <td>{{ plan.type }}</td>
+        <td class="text-success">{{ plan.price | currency }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

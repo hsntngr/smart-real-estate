@@ -1,0 +1,35 @@
+.text-gray {
+  color: var(--theme-text-gray);
+}
+
+:host mdb-tabs::ng-deep li.nav-item {
+  width: 33.3333%;
+  text-align: center;
+}
+
+.nearby-list {
+  padding: 0 15px;
+
+  app-real-estate-summary-card {
+    cursor: pointer;
+    display: block;
+  }
+
+  app-real-estate-summary-card ~ app-real-estate-summary-card {
+    margin-top: 10px;
+  }
+}
+.card {
+  box-shadow: unset;
+}
+
+:host mdb-accordion-item::ng-deep .accordion-button {
+  border-radius: unset;
+  box-sizing: border-box;
+}
+
+
+:host mdb-tabs::ng-deep .tab-content {
+  overflow-y: auto;
+  height: calc(100% - 225px);
+}

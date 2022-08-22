@@ -1,0 +1,11 @@
+@mixin respond($width) {
+  @media screen and (max-width: #{$width + 'px'}) {
+    @content
+  }
+}
+
+@mixin adapt($width) {
+  @media screen and (min-width: #{$width + 'px'}) {
+    @content
+  }
+}

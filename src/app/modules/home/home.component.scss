@@ -1,0 +1,4 @@
+:host::ng-deep app-map-editor .map-container {
+  height: calc(100vh - 75px);
+  overflow: hidden;
+}
